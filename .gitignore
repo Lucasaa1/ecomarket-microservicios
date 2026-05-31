@@ -1,0 +1,17 @@
+# Bases de datos SQLite
+*.db
+
+# Archivos compilados de Java/Spring Boot
+**/target/
+**/.mvn/
+**/mvnw
+**/mvnw.cmd
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# Node/Frontend
+**/node_modules/
+.env

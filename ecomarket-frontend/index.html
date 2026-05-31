@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMarket | Conciencia Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="aurora"></div>
+    <div class="aurora aurora-2"></div>
+
+    <div id="auth-container" class="auth-overlay">
+        <div class="auth-card glass">
+            <div class="logo" style="text-align: center; margin-bottom: 30px; font-size: 1.8rem;">
+                ECO<span>MARKET</span>
+            </div>
+            <h2 id="auth-title">Iniciar Sesión</h2>
+            <p id="auth-subtitle" class="auth-switch-text">Ingresa tus credenciales para acceder al panel ecológico.</p>
+            
+            <form id="auth-form">
+                <div id="auth-register-fields" style="display: none;">
+                    <input type="text" id="auth-nombre" placeholder="Nombre Completo" class="glass-input">
+                </div>
+                <input type="email" id="auth-correo" placeholder="Correo Electrónico" required class="glass-input">
+                <input type="password" id="auth-password" placeholder="Contraseña" required class="glass-input">
+                
+                <div id="auth-error" class="error-box" style="display: none;"></div>
+                
+                <button type="submit" id="auth-submit-btn" class="btn-eco" style="width: 100%; margin-top: 10px;">
+                    Ingresar al Panel
+                </button>
+            </form>
+            
+            <div class="auth-toggle-container">
+                <a href="javascript:void(0)" id="auth-toggle-link" onclick="toggleAuthMode()">
+                    ¿No tienes cuenta? Regístrate aquí
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-app-content" style="display: none;">
+        
+        <nav class="glass-nav">
+            <div class="nav-content">
+                <div class="logo">ECO<span>MARKET</span></div>
+                <div class="nav-links">
+                    <a href="javascript:void(0)" onclick="showSection('productos')">Catálogo</a>
+                    <a href="javascript:void(0)" onclick="showSection('clientes')">Comunidad</a>
+                    <a href="javascript:void(0)" onclick="showSection('pedidos')">Pedidos</a>
+                    <a href="javascript:void(0)" onclick="showSection('categorias')">Categorías</a>
+                    <a href="javascript:void(0)" onclick="logout()" class="btn-logout" style="color: #f87171; margin-left: 30px; font-weight: 600;">Cerrar Sesión</a>
+                </div>
+            </div>
+        </nav>
+
+        <main id="app">
+            
+            <section id="productos" class="active">
+                <div class="header-flex">
+                    <div>
+                        <h1>Huella<span>Digital Pro</span></h1>
+                        <p class="section-desc" id="user-welcome">Sincronizando catálogo de productos ecosostenibles.</p>
+                    </div>
+                    <button class="btn-eco admin-only" onclick="openModal('producto')">+ Nuevo Producto</button>
+                </div>
+                <div class="grid" id="grid-productos"></div>
+            </section>
+
+            <section id="clientes">
+                <div class="header-flex">
+                    <div>
+                        <h1>Nuestra<span>Comunidad</span></h1>
+                        <p class="section-desc">Gestión y registro de usuarios conscientes en la plataforma.</p>
+                    </div>
+                    <button class="btn-eco admin-only" onclick="openModal('cliente')">+ Registrar Cliente</button>
+                </div>
+                <div class="table-container glass">
+                    <table id="tabla-clientes">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Rol / Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="pedidos">
+                <div class="header-flex">
+                    <div>
+                        <h1>Logística<span>Sostenible</span></h1>
+                        <p class="section-desc">Trazabilidad y estados de órdenes de compra con huella verde.</p>
+                    </div>
+                    <button class="btn-eco" onclick="openModal('pedido')">+ Crear Pedido</button> 
+                </div>
+                <div class="grid" id="grid-pedidos"></div>
+            </section>
+
+            <section id="categorias">
+                <div class="header-flex">
+                    <div>
+                        <h1>Organización<span>Ecológica</span></h1>
+                        <p class="section-desc">Clasificación estructural para el inventario de recursos distribuidos.</p>
+                    </div>
+                    <button class="btn-eco admin-only" onclick="openModal('categoria')">+ Nueva Categoría</button>
+                </div>
+                <div class="grid" id="grid-categorias"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <div id="modal" class="modal-overlay">
+        <div class="modal-card glass">
+            <h2 id="modal-title">Actualizar Inventario</h2>
+            <form id="data-form">
+                <div id="form-fields"></div>
+                <div class="modal-btns">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn-save">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

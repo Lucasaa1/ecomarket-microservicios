@@ -1,0 +1,263 @@
+{
+  "info": {
+    "name": "EcoMarket SPA - catalog-service y order-service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Catalog - Crear categoria",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Cereales\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8081/categorias",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8081",
+          "path": ["categorias"]
+        }
+      }
+    },
+    {
+      "name": "Catalog - Listar categorias",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8081/categorias",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8081",
+          "path": ["categorias"]
+        }
+      }
+    },
+    {
+      "name": "Catalog - Obtener categoria",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8081/categorias/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8081",
+          "path": ["categorias", "1"]
+        }
+      }
+    },
+    {
+      "name": "Catalog - Actualizar categoria",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Frutas Frescas\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8081/categorias/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8081",
+          "path": ["categorias", "1"]
+        }
+      }
+    },
+    {
+      "name": "Catalog - Eliminar categoria",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:8081/categorias/3",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8081",
+          "path": ["categorias", "3"]
+        }
+      }
+    },
+    {
+      "name": "Catalog - Crear producto",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Avena Integral\",\n  \"descripcion\": \"Avena local sin aditivos\",\n  \"precio\": 1800,\n  \"stock\": 50,\n  \"categoriaId\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8081/productos",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8081",
+          "path": ["productos"]
+        }
+      }
+    },
+    {
+      "name": "Catalog - Listar productos",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8081/productos",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8081",
+          "path": ["productos"]
+        }
+      }
+    },
+    {
+      "name": "Catalog - Obtener producto",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8081/productos/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8081",
+          "path": ["productos", "1"]
+        }
+      }
+    },
+    {
+      "name": "Catalog - Actualizar producto",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Manzana Organica Premium\",\n  \"descripcion\": \"Manzana local seleccionada\",\n  \"precio\": 1700,\n  \"stock\": 90,\n  \"categoriaId\": 1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8081/productos/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8081",
+          "path": ["productos", "1"]
+        }
+      }
+    },
+    {
+      "name": "Catalog - Eliminar producto",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:8081/productos/3",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8081",
+          "path": ["productos", "3"]
+        }
+      }
+    },
+    {
+      "name": "Order - Crear pedido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuarioId\": 1,\n  \"productoId\": 1,\n  \"cantidad\": 2\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8082/pedidos",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8082",
+          "path": ["pedidos"]
+        }
+      }
+    },
+    {
+      "name": "Order - Listar pedidos",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8082/pedidos",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8082",
+          "path": ["pedidos"]
+        }
+      }
+    },
+    {
+      "name": "Order - Obtener pedido",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8082/pedidos/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8082",
+          "path": ["pedidos", "1"]
+        }
+      }
+    },
+    {
+      "name": "Order - Cambiar estado pedido",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"estado\": \"PAGADO\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8082/pedidos/1/estado",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8082",
+          "path": ["pedidos", "1", "estado"]
+        }
+      }
+    },
+    {
+      "name": "Order - Eliminar pedido",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:8082/pedidos/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8082",
+          "path": ["pedidos", "1"]
+        }
+      }
+    }
+  ]
+}

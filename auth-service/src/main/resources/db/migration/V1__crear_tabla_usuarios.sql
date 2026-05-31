@@ -1,0 +1,7 @@
+CREATE TABLE usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    correo TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    rol TEXT NOT NULL CHECK (rol IN ('ADMIN', 'CLIENTE'))
+);
