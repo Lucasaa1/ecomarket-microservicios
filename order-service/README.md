@@ -22,10 +22,6 @@ GET http://localhost:8081/productos/{id}
 
 Antes de crear un pedido valida que el producto exista y tenga stock suficiente.
 
-## Seguridad
-
-No implementa login ni genera JWT. `SecurityConfig` queda preparado con un comentario claro donde se integraria la validacion del JWT emitido por `auth-service`.
-
 ## Endpoints
 
 ```http
