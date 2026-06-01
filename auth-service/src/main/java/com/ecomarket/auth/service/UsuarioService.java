@@ -22,22 +22,31 @@ public class UsuarioService {
 
     @Transactional(readOnly = true)
     public List<UsuarioResponse> listarUsuarios() {
-        return usuarioRepository.findAll()
+        log.info("Listando usuarios registrados");
+        List<UsuarioResponse> usuarios = usuarioRepository.findAll()
                 .stream()
                 .map(this::mapearUsuarioResponse)
                 .toList();
+        log.info("Listado de usuarios completado. Total={}", usuarios.size());
+        return usuarios;
     }
 
     @Transactional(readOnly = true)
     public UsuarioResponse obtenerUsuarioPorId(Integer id) {
+        log.info("Buscando usuario con id {}", id);
         return usuarioRepository.findById(id)
                 .map(this::mapearUsuarioResponse)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Usuario no encontrado"));
+                .orElseThrow(() -> {
+                    log.warn("Usuario no encontrado con id {}", id);
+                    return new RecursoNoEncontradoException("Usuario no encontrado");
+                });
     }
 
     @Transactional
     public void eliminarUsuario(Integer id) {
+        log.info("Iniciando eliminacion de usuario con id {}", id);
         if (!usuarioRepository.existsById(id)) {
+            log.warn("Eliminacion rechazada: usuario {} no existe", id);
             throw new RecursoNoEncontradoException("Usuario no encontrado");
         }
 

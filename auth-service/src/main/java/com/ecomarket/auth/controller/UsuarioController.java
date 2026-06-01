@@ -14,7 +14,9 @@ import com.ecomarket.auth.dto.UsuarioResponse;
 import com.ecomarket.auth.service.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/usuarios")
 @CrossOrigin(origins = "*")
@@ -25,17 +27,25 @@ public class UsuarioController {
 
     @GetMapping
     public ResponseEntity<List<UsuarioResponse>> listarUsuarios() {
-        return ResponseEntity.ok(usuarioService.listarUsuarios());
+        log.info("HTTP GET /api/usuarios iniciado");
+        List<UsuarioResponse> usuarios = usuarioService.listarUsuarios();
+        log.info("HTTP GET /api/usuarios finalizado. Total={}", usuarios.size());
+        return ResponseEntity.ok(usuarios);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponse> obtenerUsuario(@PathVariable Integer id) {
-        return ResponseEntity.ok(usuarioService.obtenerUsuarioPorId(id));
+        log.info("HTTP GET /api/usuarios/{} iniciado", id);
+        UsuarioResponse usuario = usuarioService.obtenerUsuarioPorId(id);
+        log.info("HTTP GET /api/usuarios/{} finalizado", id);
+        return ResponseEntity.ok(usuario);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarUsuario(@PathVariable Integer id) {
+        log.info("HTTP DELETE /api/usuarios/{} iniciado", id);
         usuarioService.eliminarUsuario(id);
+        log.info("HTTP DELETE /api/usuarios/{} finalizado", id);
         return ResponseEntity.noContent().build();
     }
 }

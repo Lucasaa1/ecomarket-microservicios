@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,13 +30,16 @@ public class Pedido {
     private Integer id;
 
     @NotNull
+    @Positive
     @Column(name = "usuario_id", nullable = false)
     private Integer usuarioId;
 
     @NotNull
+    @Positive
     @Column(name = "producto_id", nullable = false)
     private Integer productoId;
 
+    @NotNull
     @Min(1)
     @Column(nullable = false)
     private Integer cantidad;
@@ -46,8 +50,8 @@ public class Pedido {
     @Column(nullable = false)
     private String estado;
 
-    // 🌟 NUEVO CAMPO: Para almacenar el total calculado de la compra
     @NotNull
+    @Positive
     @Column(nullable = false)
     private Double monto;
 }

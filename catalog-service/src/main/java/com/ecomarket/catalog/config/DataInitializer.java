@@ -42,9 +42,7 @@ public class DataInitializer implements CommandLineRunner {
             Integer stock,
             Integer categoriaId
     ) {
-        boolean existe = productoRepository.findAll()
-                .stream()
-                .anyMatch(producto -> producto.getNombre().equalsIgnoreCase(nombre));
+        boolean existe = productoRepository.existsByNombreIgnoreCase(nombre);
 
         if (!existe) {
             productoRepository.save(Producto.builder()
@@ -52,7 +50,7 @@ public class DataInitializer implements CommandLineRunner {
                     .descripcion(descripcion)
                     .precio(precio)
                     .stock(stock)
-                    .categoriaId(categoriaId)
+                    .categoria(categoriaRepository.getReferenceById(categoriaId))
                     .build());
             log.info("Producto inicial creado: {}", nombre);
         }

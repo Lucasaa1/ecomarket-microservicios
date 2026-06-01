@@ -1,13 +1,13 @@
 // --- CONFIGURACIÓN DE PUERTOS POR MICROSERVICIO ---
-const AUTH_BASE    = "http://localhost:8080/api/auth";   
-const API_AUTH     = "http://localhost:8080/api";        
-const API_CATALOGO = "http://localhost:8081/api";        
-const API_PEDIDOS  = "http://localhost:8082/api";        
+const AUTH_BASE    = "http://localhost:8080/api/auth";
+const API_AUTH     = "http://localhost:8080/api";
+const API_CATALOGO = "http://localhost:8081/api";
+const API_PEDIDOS  = "http://localhost:8082/api";
 
 // --- ESTADO DE LA APLICACIÓN ---
 let isRegisterMode = false;
 let currentUser = {
-    id: localStorage.getItem('eco_id') || null,          
+    id: localStorage.getItem('eco_id') || null,
     token: localStorage.getItem('eco_token') || null,
     rol: localStorage.getItem('eco_rol') || null,
     correo: localStorage.getItem('eco_correo') || null
@@ -16,7 +16,7 @@ let carrito = [];
 
 // 🌟 ALMACÉN DE DATOS EN MEMORIA PARA EDICIÓN RÁPIDA 🌟
 window.ecoStore = { productos: {}, clientes: {}, categorias: {}, pedidos: {} };
-window.currentEditId = null; 
+window.currentEditId = null;
 
 // --- 🛒 NUEVO SISTEMA DE CARRITO PERSISTENTE ---
 function obtenerClaveCarritoUsuario() {
@@ -83,14 +83,14 @@ function checkAuthentication() {
         if (mainContent) mainContent.style.display = 'block';
         
         applyRoleRestrictions();
-        cargarCarritoDeStorage(); 
+        cargarCarritoDeStorage();
         
         const welcomeTxt = document.getElementById('user-welcome');
         if (welcomeTxt) welcomeTxt.innerText = `Conectado como: ${currentUser.correo} (${currentUser.rol})`;
         
         showSection('productos');
     } else {
-        carrito = []; 
+        carrito = [];
         if (authContainer) {
             authContainer.style.display = 'flex';
             setTimeout(() => authContainer.style.opacity = '1', 50);
@@ -152,9 +152,9 @@ document.getElementById('auth-form').onsubmit = async (e) => {
         const data = await response.json();
         
         localStorage.setItem('eco_id', data.usuario.id);
-        localStorage.setItem('eco_token', data.token); 
-        localStorage.setItem('eco_rol', data.usuario.rol); 
-        localStorage.setItem('eco_correo', data.usuario.correo); 
+        localStorage.setItem('eco_token', data.token);
+        localStorage.setItem('eco_rol', data.usuario.rol);
+        localStorage.setItem('eco_correo', data.usuario.correo);
 
         currentUser = {
             id: data.usuario.id,
@@ -177,7 +177,7 @@ function logout() {
     localStorage.removeItem('eco_correo');
     
     currentUser = { id: null, token: null, rol: null, correo: null };
-    carrito = []; 
+    carrito = [];
     checkAuthentication();
 }
 
@@ -195,7 +195,7 @@ async function ecoFetch(url, options = {}) {
     };
     const response = await fetch(url, options);
     if (!response.ok) {
-        if (response.status === 401) { alert("Sesión expirada."); logout(); } 
+        if (response.status === 401) { alert("Sesión expirada."); logout(); }
         else if (response.status === 403) { alert("Acceso Denegado: Rol insuficiente."); showSection('productos'); }
     }
     return response;
@@ -217,7 +217,7 @@ window.eliminarRegistro = async function(tipo, ids) {
     }
 
     try {
-        const idArray = Array.isArray(ids) ? ids : [ids]; 
+        const idArray = Array.isArray(ids) ? ids : [ids];
         for (const id of idArray) {
             
             // --- LÓGICA DE REABASTECIMIENTO AL BORRAR ORDEN ---
@@ -253,7 +253,7 @@ window.eliminarRegistro = async function(tipo, ids) {
         showSection(tipo === 'cliente' ? 'clientes' : `${tipo}s`);
         
         // Refrescamos productos en segundo plano para que se vea el stock actualizado
-        if (tipo === 'pedido') renderProductos(); 
+        if (tipo === 'pedido') renderProductos();
     } catch (error) {
         alert("Fallo de red o restricción de base de datos: " + error.message);
     }
@@ -287,10 +287,10 @@ async function renderProductos() {
         if (!response.ok) throw new Error();
         const productos = await response.json();
         
-        window.ecoStore.productos = {}; 
+        window.ecoStore.productos = {};
 
         grid.innerHTML = productos.length > 0 ? productos.map(p => {
-            window.ecoStore.productos[p.id] = p; 
+            window.ecoStore.productos[p.id] = p;
             
             const adminControls = currentUser.rol === 'ADMIN' ? `
                 <div style="margin-top:15px; display:flex; gap:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
@@ -306,7 +306,7 @@ async function renderProductos() {
                 <p class="price">$${p.precio.toFixed(0)}</p>
                 <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center">
                     <span style="font-size:0.8rem; color:var(--text-dim)">Inventario: ${p.stock} uds</span>
-                    <button onclick="agregarAlCarrito(${p.id}, '${p.nombre}', ${p.precio}, ${p.stock})" 
+                    <button onclick="agregarAlCarrito(${p.id}, '${p.nombre}', ${p.precio}, ${p.stock})"
                             style="background:var(--primary-green); color:var(--bg-deep); border:none; padding:6px 12px; border-radius:6px; font-weight:700; cursor:pointer; font-size:0.8rem;">
                         + Carrito
                     </button>
@@ -501,15 +501,15 @@ window.cambiarEstadoPedido = async function(ids, estadoActual) {
             if(!respGet.ok) continue;
             const pedidoOriginal = await respGet.json();
 
-            const respPatch = await ecoFetch(`${API_PEDIDOS}/pedidos/${id}/estado`, {
-                method: 'PATCH',
-                body: JSON.stringify({ estado: estadoFinal }) 
+            const respEstado = await ecoFetch(`${API_PEDIDOS}/pedidos/${id}/estado`, {
+                method: 'POST',
+                body: JSON.stringify({ estado: estadoFinal })
             });
 
-            if (!respPatch.ok) {
-                const errorData = await respPatch.text();
+            if (!respEstado.ok) {
+                const errorData = await respEstado.text();
                 console.error(`Rechazo de Spring Boot para el ID ${id}:`, errorData);
-                throw new Error(`El backend rechazó el cambio (Error ${respPatch.status}). Revisa la consola.`);
+                throw new Error(`El backend rechazó el cambio (Error ${respEstado.status}). Revisa la consola.`);
             }
 
             // Lógica de Inventario

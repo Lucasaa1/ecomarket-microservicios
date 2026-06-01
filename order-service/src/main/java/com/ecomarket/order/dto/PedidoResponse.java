@@ -10,6 +10,6 @@ public record PedidoResponse(
         Integer cantidad,
         LocalDateTime fecha,
         String estado,
-        Double monto // 🌟 NUEVO CAMPO: Agregado para viajar directo hacia el Frontend
+        Double monto
 ) {
 }

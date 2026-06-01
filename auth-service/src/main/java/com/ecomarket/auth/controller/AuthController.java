@@ -16,7 +16,9 @@ import com.ecomarket.auth.service.AuthService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*")
@@ -27,11 +29,17 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UsuarioResponse> registrar(@Valid @RequestBody RegistroRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(authService.registrar(request));
+        log.info("HTTP POST /api/auth/register iniciado para correo {}", request.correo());
+        UsuarioResponse response = authService.registrar(request);
+        log.info("HTTP POST /api/auth/register finalizado con usuario id {}", response.id());
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-        return ResponseEntity.ok(authService.login(request));
+        log.info("HTTP POST /api/auth/login iniciado para correo {}", request.correo());
+        LoginResponse response = authService.login(request);
+        log.info("HTTP POST /api/auth/login finalizado para usuario id {}", response.usuario().id());
+        return ResponseEntity.ok(response);
     }
 }

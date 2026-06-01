@@ -28,10 +28,12 @@ public class AuthService {
 
     @Transactional
     public UsuarioResponse registrar(RegistroRequest request) {
+        log.info("Iniciando registro de usuario para correo {}", request.correo());
         String correo = normalizarCorreo(request.correo());
         String rol = normalizarRol(request.rol());
 
         if (usuarioRepository.findByCorreo(correo).isPresent()) {
+            log.warn("Registro rechazado: correo {} ya existe", correo);
             throw new UsuarioYaExisteException("Ya existe un usuario con ese correo");
         }
 
@@ -49,6 +51,7 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public LoginResponse login(LoginRequest request) {
+        log.info("Iniciando login para correo {}", request.correo());
         String correo = normalizarCorreo(request.correo());
         Usuario usuario = usuarioRepository.findByCorreo(correo)
                 .orElseThrow(() -> {

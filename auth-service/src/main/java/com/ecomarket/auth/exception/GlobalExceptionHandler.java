@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,25 +22,37 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RecursoNoEncontradoException.class)
     public ResponseEntity<ErrorResponse> manejarNoEncontrado(RecursoNoEncontradoException ex) {
-        log.error("Recurso no encontrado: {}", ex.getMessage());
+        log.warn("Error controlado 404: {}", ex.getMessage());
         return construirRespuesta(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
     @ExceptionHandler({CredencialesInvalidasException.class, BadCredentialsException.class})
     public ResponseEntity<ErrorResponse> manejarCredencialesInvalidas(RuntimeException ex) {
-        log.error("Error de autenticacion: {}", ex.getMessage());
+        log.warn("Error controlado 401: {}", ex.getMessage());
         return construirRespuesta(HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
 
     @ExceptionHandler(UsuarioYaExisteException.class)
     public ResponseEntity<ErrorResponse> manejarUsuarioExistente(UsuarioYaExisteException ex) {
-        log.error("Usuario existente: {}", ex.getMessage());
-        return construirRespuesta(HttpStatus.BAD_REQUEST, ex.getMessage());
+        log.warn("Error controlado 409: {}", ex.getMessage());
+        return construirRespuesta(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> manejarNoAutenticado(AuthenticationException ex) {
+        log.warn("Error controlado 401: {}", ex.getMessage());
+        return construirRespuesta(HttpStatus.UNAUTHORIZED, "No autenticado");
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> manejarAccesoDenegado(AccessDeniedException ex) {
+        log.warn("Error controlado 403: {}", ex.getMessage());
+        return construirRespuesta(HttpStatus.FORBIDDEN, "Acceso denegado");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> manejarSolicitudInvalida(IllegalArgumentException ex) {
-        log.error("Solicitud invalida: {}", ex.getMessage());
+        log.warn("Error controlado 400: {}", ex.getMessage());
         return construirRespuesta(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
@@ -49,7 +63,7 @@ public class GlobalExceptionHandler {
                 .stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .collect(Collectors.joining("; "));
-        log.error("Error de validacion: {}", mensaje);
+        log.warn("Error controlado de validacion 400: {}", mensaje);
         return construirRespuesta(HttpStatus.BAD_REQUEST, mensaje);
     }
 

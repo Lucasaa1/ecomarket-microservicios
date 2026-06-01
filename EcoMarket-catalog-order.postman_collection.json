@@ -226,7 +226,7 @@
     {
       "name": "Order - Cambiar estado pedido",
       "request": {
-        "method": "PATCH",
+        "method": "POST",
         "header": [
           {
             "key": "Content-Type",
